@@ -8,6 +8,15 @@
 *.gch
 *.pch
 
+#immediat files
+*.sdf
+*.suo
+*.vcxproj.user
+*.obj
+*.aps
+*.log
+*.txt
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -26,3 +35,16 @@
 *.exe
 *.out
 *.app
+
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+$Debug/
+/trunk/build/VS2015/.vs
+/trunk/build/VS2015/Debug
+/trunk/build/VS2015/Release
+/trunk/build/VS2015/blackconfigurator/Debug
+/trunk/build/VS2015/blackconfigurator/Release
+/trunk/build/VS2015/test/Debug
+/trunk/build/VS2015/test/Release
+
