@@ -3,15 +3,33 @@
 #include "black-configurator.h"
 #include "black-configurator-factory.h"
 #include "registry.h"
+#include "dgr2Macro.h"
+#include "fileAppender.h"
+#include "standardFormatter.h"
+USING_DGR2;
 using namespace bconf;
 
 ULONG    g_lock_num = 0;
 ULONG    g_configurator_num = 0;
 
 HANDLE g_dll_handle = NULL;
+Logger* g_local_logger = NULL;
 
 // {D2952CBD-3AD8-4130-83F6-6FEA9973E76E}
 const GUID CLSID_BlackConfigurator = { 0xd2952cbd, 0x3ad8, 0x4130,{ 0x83, 0xf6, 0x6f, 0xea, 0x99, 0x73, 0xe7, 0x6e } };
+
+void InitDebugger() {
+    g_local_logger = new Logger(_X("blackonfigurator_logger"));
+    StandardFormatter* formatter = new StandardFormatter();
+    FileAppender* appender = new FileAppender(_X("./bf.log.txt"), 1);
+    appender->setFormatter(formatter);
+    g_local_logger->addAppender(*appender);    
+}
+
+void DestroyDebugger() {
+    g_local_logger->destroy();
+    g_local_logger = NULL;
+}
 
 BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {
@@ -22,7 +40,9 @@ BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
     {
     case DLL_PROCESS_ATTACH:
         // Initialize once for each new process.
-        // Return FALSE to fail DLL load.    
+        // Return FALSE to fail DLL load.   
+        InitDebugger();
+        SXLOG_INF(g_local_logger) << _T("DLL_PROCESS_ATTACH!") << LBT << END;
         break;
 
     case DLL_THREAD_ATTACH:
@@ -35,6 +55,8 @@ BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 
     case DLL_PROCESS_DETACH:
         // Perform any necessary cleanup.
+        SXLOG_INF(g_local_logger) << _T("DLL_PROCESS_DETACH!") << LBT << END;
+        DestroyDebugger();
         break;
     }
     return TRUE;  // Successful DLL_PROCESS_ATTACH.

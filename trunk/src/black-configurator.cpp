@@ -2,7 +2,11 @@
 #include <map>
 #include <algorithm>
 #include <tchar.h>
+#include "dgr2Macro.h"
 using namespace std;
+USING_DGR2;
+
+extern Logger* g_local_logger;
 
 __BCONF_BEGIN__
 
@@ -44,10 +48,12 @@ BlackConfigurator::Impl::Impl()
 BlackConfigurator::BlackConfigurator()
     :impl_(new Impl()) {
     g_configurator_num++;
+    SXLOG_INF(g_local_logger) << _X("New BlackConfigurator Object Created!") << LBT << END;
 }
 
 BlackConfigurator::~BlackConfigurator(){
     delete impl_;
+    SXLOG_INF(g_local_logger) << _X("BlackConfigurator Object Deleted!") << LBT << END;
 }
 
 HRESULT BlackConfigurator::QueryInterface(const IID& iid, void **ppv){
@@ -66,11 +72,13 @@ HRESULT BlackConfigurator::QueryInterface(const IID& iid, void **ppv){
 
 ULONG	BlackConfigurator::AddRef(){
     impl_->ref_num++;
+    SXLOG_INF(g_local_logger) << _T("BlackConfigurator:") << GetName().c_str() << _X(" AddRef->Num: ") <<impl_->ref_num << LBT << END;
     return  (ULONG)impl_->ref_num;
 }
 
 ULONG	BlackConfigurator::Release(){
     impl_->ref_num--;
+    SXLOG_INF(g_local_logger) << _T("BlackConfigurator:") << GetName().c_str() << _X(" Release->Num: ") << impl_->ref_num << LBT << END;
     if (impl_->ref_num == 0) {
         g_configurator_num--;
         delete this;

@@ -30,6 +30,11 @@ int main()
          cout << "Create CLSID_BlackConfigurator object failed!\n";
          return -2;
      }
+     dict->SetName(_T("testconfigurator"));
+     dict->AddPair(_T("Global"), _T("Ggagl"));
+     StringT value;
+     bool result = dict->GetValueAsString(_T("Global"), value);
+     wcout << value.c_str() << endl;
      dict->Release();
     CoUninitialize();
     return 0;

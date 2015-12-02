@@ -1,8 +1,11 @@
 #include "black-configurator-factory.h"
 #include "black-configurator.h"
+#include "dgr2Macro.h"
+USING_DGR2;
+
+extern Logger* g_local_logger;
 
 __BCONF_BEGIN__
-
 extern ULONG g_lock_num;
 extern ULONG g_configurator_num;
 
@@ -22,9 +25,11 @@ HRESULT BlackConfiguratorFactory::QueryInterface(const IID& iid, void **ppv){
 
 BlackConfiguratorFactory::BlackConfiguratorFactory()
     :ref_num_(0){
+    SXLOG_INF(g_local_logger) << _X("New BlackConfiguratorFactory Object Created!") << LBT << END;
 }
 
 BlackConfiguratorFactory::~BlackConfiguratorFactory(){
+    SXLOG_INF(g_local_logger) << _X("BlackConfiguratorFactory Object Destroy!") << LBT << END;
 }
 
 HRESULT BlackConfiguratorFactory::LockServer(BOOL block){
