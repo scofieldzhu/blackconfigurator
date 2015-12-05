@@ -1,8 +1,10 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#include <stdio.h>
 #include <string>
 #include <vector>
+#include <map>
 #include <tchar.h>
 #include <comdef.h>
 
@@ -20,11 +22,14 @@ __BCONF_BEGIN__
 typedef std::vector<StringT> StringsT;
 
 enum ValueType{
+    VALUE_TYPE_NONE,
     VALUE_TYPE_INTEGER,
     VALUE_TYPE_DOUBLE,
     VALUE_TYPE_STR,
     VALUE_TYPE_CONF_DICT,
 };
+
+typedef std::map<StringT, ValueType> KeyPropertyDict;
 
 __BCONF_END__
 

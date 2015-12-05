@@ -159,6 +159,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\black-configurator-factory.cpp" />
     <ClCompile Include="..\..\..\src\black-configurator.cpp" />
+    <ClCompile Include="..\..\..\src\conf-item-dict-reader.cpp" />
+    <ClCompile Include="..\..\..\src\conf-item-dict-writer.cpp" />
     <ClCompile Include="..\..\..\src\registry.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
@@ -169,6 +171,8 @@
     <ClInclude Include="..\..\..\src\black-configurator-factory.h" />
     <ClInclude Include="..\..\..\src\black-configurator.h" />
     <ClInclude Include="..\..\..\src\common.h" />
+    <ClInclude Include="..\..\..\src\conf-item-dict-reader.h" />
+    <ClInclude Include="..\..\..\src\conf-item-dict-writer.h" />
     <ClInclude Include="..\..\..\src\conf-item-dict.h" />
     <ClInclude Include="..\..\..\src\conf-serializer.h" />
     <ClInclude Include="..\..\..\src\registry.h" />

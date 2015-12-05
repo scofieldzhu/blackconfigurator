@@ -27,6 +27,12 @@
     <ClCompile Include="..\..\..\src\black-configurator-factory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\conf-item-dict-reader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\conf-item-dict-writer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="dllexports.def">
@@ -53,6 +59,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\black-configurator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\conf-item-dict-reader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\conf-item-dict-writer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
