@@ -14,10 +14,12 @@ public:
     virtual void __stdcall SetDescription(const StringT& desp) = 0;
     virtual const StringT& __stdcall GetDescription()const = 0;
 
-    virtual void __stdcall AddPair(const TCHAR* key, int value) = 0;
-    virtual void __stdcall AddPair(const TCHAR* key, double value) = 0;
-    virtual void __stdcall AddPair(const TCHAR* key, const TCHAR* value) = 0;
-    virtual void __stdcall AddPair(const TCHAR* key, ConfItemDict* dict) = 0;
+    virtual void __stdcall AddPair(const TCHAR* key, int value, LPCTSTR annotation) = 0;
+    virtual void __stdcall AddPair(const TCHAR* key, double value, LPCTSTR annotation) = 0;
+    virtual void __stdcall AddPair(const TCHAR* key, const TCHAR* value, LPCTSTR annotation) = 0;
+    virtual void __stdcall AddPair(const TCHAR* key, ConfItemDict* dict, LPCTSTR annotation) = 0;
+    
+    virtual void __stdcall SetKeyProperty(const TCHAR* key, ValueType value_type, LPCTSTR annotation) = 0;
 
     virtual void __stdcall SetValue(const TCHAR* key, int value) = 0;
     virtual void __stdcall SetValue(const TCHAR* key, double value) = 0;

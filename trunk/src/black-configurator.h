@@ -28,10 +28,12 @@ public:
     virtual void __stdcall SetDescription(const StringT& desp);
     virtual  const StringT& __stdcall GetDescription()const;
 
-    virtual  void __stdcall AddPair(const TCHAR* key, int value);
-    virtual  void __stdcall AddPair(const TCHAR* key, double value);
-    virtual  void __stdcall AddPair(const TCHAR* key, const TCHAR* value);
-    virtual  void __stdcall AddPair(const TCHAR* key, ConfItemDict* dict);
+    virtual  void __stdcall AddPair(const TCHAR* key, int value, LPCTSTR annotation);
+    virtual  void __stdcall AddPair(const TCHAR* key, double value, LPCTSTR annotation);
+    virtual  void __stdcall AddPair(const TCHAR* key, const TCHAR* value, LPCTSTR annotation);
+    virtual  void __stdcall AddPair(const TCHAR* key, ConfItemDict* dict, LPCTSTR annotation);
+
+    virtual void __stdcall SetKeyProperty(const TCHAR* key, ValueType value_type, LPCTSTR annotation);
 
     virtual  void __stdcall SetValue(const TCHAR* key, int value);
     virtual void __stdcall SetValue(const TCHAR* key, double value);

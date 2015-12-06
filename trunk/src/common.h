@@ -29,7 +29,12 @@ enum ValueType{
     VALUE_TYPE_CONF_DICT,
 };
 
-typedef std::map<StringT, ValueType> KeyPropertyDict;
+struct KeyProperty {
+    ValueType value_type;
+    StringT annotation;
+};
+
+typedef std::map<StringT, KeyProperty> KeyPropertyDict;
 
 __BCONF_END__
 
