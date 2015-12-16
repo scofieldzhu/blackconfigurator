@@ -1,4 +1,4 @@
-#include "conf-item-dict-writer.h"
+#include "conf-item-dict-file-writer.h"
 #include "conf-item-dict.h"
 using namespace std;
 
@@ -39,40 +39,40 @@ namespace {
         fputc(' ', fp);
     }
 
-    void WriteKeyAnnotation(FILE* fp, const StringT& annotation, int line_pos) {        
+    void WriteKeyAnnotation(FILE* fp, const StringT& annotation, int filled_space_char_count) {        
         if (!annotation.empty()) {            
-            FillSpaceChars(fp, line_pos);
+            FillSpaceChars(fp, filled_space_char_count);
             string utf8_str = WideCharToUtf8(_T("#") + annotation);
             fwrite(utf8_str.c_str(), 1, utf8_str.size(), fp);
-            FILL_LINE_BREAK(fp)
+            //FILL_LINE_BREAK(fp)
         }
     }
 
-    void WriteKeyValue(FILE* fp, const StringT& key, const StringT& annotation, int value, int line_pos) {
-        WriteKeyAnnotation(fp, annotation, line_pos);
+    void WriteKeyValue(FILE* fp, const StringT& key, const StringT& annotation, int value, int line_pos) {        
         WriteKey(fp, key, line_pos);        
         char value_buffer[50] = { '\0' };
         sprintf_s(value_buffer, 50, "%d", value);
         fwrite(value_buffer, 1, strlen(value_buffer), fp);        
+        WriteKeyAnnotation(fp, annotation, kSpaceCharCountForTabKey);
     }
 
     void WriteKeyValue(FILE* fp, const StringT& key, const StringT& annotation, double value, int line_pos) {
-        WriteKeyAnnotation(fp, annotation, line_pos);
         WriteKey(fp, key, line_pos);        
         char value_buffer[50] = { '\0' };
         sprintf_s(value_buffer, 50, "%f", value);
         fwrite(value_buffer, 1, strlen(value_buffer), fp);        
+        WriteKeyAnnotation(fp, annotation, kSpaceCharCountForTabKey);
     }
 
-    void WriteKeyValue(FILE* fp, const StringT& key, const StringT& annotation, const StringT value, int line_pos) {
-        WriteKeyAnnotation(fp, annotation, line_pos);
+    void WriteKeyValue(FILE* fp, const StringT& key, const StringT& annotation, const StringT value, int line_pos) {        
         WriteKey(fp, key, line_pos);        
         string utf8_str = WideCharToUtf8(_T("\"") + value + _T("\""));
         fwrite(utf8_str.c_str(), 1, utf8_str.size(), fp);        
+        WriteKeyAnnotation(fp, annotation, kSpaceCharCountForTabKey);
     }
 
     void OnBeginWriteConfItemDict(const ConfItemDict* dict, FILE* fp, int line_pos) {
-        WriteKeyAnnotation(fp, dict->GetDescription(), line_pos);
+        //WriteKeyAnnotation(fp, dict->GetDescription(), line_pos);
         WriteKey(fp, dict->GetName(), line_pos);
         FILL_LINE_BREAK(fp)
         FillSpaceChars(fp, line_pos);
@@ -83,10 +83,11 @@ namespace {
     void OnEndWriteConfItemDict(const ConfItemDict* dict, FILE* fp, int line_pos) {
         FillSpaceChars(fp, line_pos);
         fputc(kEndBracketOfDict, fp);
+        WriteKeyAnnotation(fp, dict->GetDescription(), kSpaceCharCountForTabKey);
     }
 }
 
-void ConfItemDictWriter::Write() {
+void ConfItemDictFileWriter::Write() {
     if (target_dict_ == NULL)
         return;    
     OnBeginWriteConfItemDict(target_dict_, fp_, line_pos_);
@@ -118,7 +119,7 @@ void ConfItemDictWriter::Write() {
             case VALUE_TYPE_CONF_DICT: {
                 ConfItemDict* dict = NULL;
                 target_dict_->GetConfDictValue(key.c_str(), dict);
-                ConfItemDictWriter writer(dict, fp_, line_pos_ + kSpaceCharCountForTabKey);
+                ConfItemDictFileWriter writer(dict, fp_, line_pos_ + kSpaceCharCountForTabKey);
                 writer.Write();
                 break;
             }
@@ -130,14 +131,14 @@ void ConfItemDictWriter::Write() {
     OnEndWriteConfItemDict(target_dict_, fp_, line_pos_);
 }
 
-ConfItemDictWriter::ConfItemDictWriter(const ConfItemDict* target_dict, FILE* fp, int line_pos)
+ConfItemDictFileWriter::ConfItemDictFileWriter(const ConfItemDict* target_dict, FILE* fp, int line_pos)
     :target_dict_(target_dict),
     fp_(fp),
     line_pos_(line_pos)
 {    
 }
 
-ConfItemDictWriter::~ConfItemDictWriter()
+ConfItemDictFileWriter::~ConfItemDictFileWriter()
 {
 }
 

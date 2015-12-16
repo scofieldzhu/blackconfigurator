@@ -6,12 +6,12 @@
 __BCONF_BEGIN__
 class ConfItemDict;
 
-class ConfItemDictWriter
+class ConfItemDictFileWriter
 {
 public:
     void Write();
-    ConfItemDictWriter(const ConfItemDict* target_dict, FILE* fp, int line_pos);
-    ~ConfItemDictWriter();
+    ConfItemDictFileWriter(const ConfItemDict* target_dict, FILE* fp, int line_pos);
+    ~ConfItemDictFileWriter();
 private:
     const ConfItemDict* target_dict_;
     FILE* fp_;

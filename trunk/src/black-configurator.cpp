@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <tchar.h>
 #include "dgr2Macro.h"
-#include "conf-item-dict-writer.h"
+#include "conf-item-dict-file-writer.h"
+#include "conf-item-dict-file-reader.h"
 using namespace std;
 USING_DGR2;
 
@@ -124,6 +125,20 @@ void BlackConfigurator::GetKeys(StringsT& out_keys) const{
     for_each(impl_->data_dict.begin(), impl_->data_dict.end(), _MapKeyCollectFunctor(out_keys));
 }
 
+void __stdcall bconf::BlackConfigurator::Clear()
+{
+    for (MapType::iterator iter = impl_->data_dict.begin(); iter != impl_->data_dict.end(); ++iter) {
+        if ((*iter).second.property.value_type == VALUE_TYPE_CONF_DICT) {
+            ConfItemDict* conf_dict = (*iter).second.value.conf_dict;
+            if (conf_dict) {
+                conf_dict->Clear();
+                conf_dict->Release();
+            }
+        }
+    }    
+    impl_->data_dict.clear();
+}
+
 void BlackConfigurator::RemoveKey(const TCHAR* key) {
     MapType::const_iterator iter = impl_->data_dict.find(key);
     if (iter != impl_->data_dict.end()) {
@@ -207,14 +222,14 @@ void BlackConfigurator::SetValue(const TCHAR* key, const TCHAR* value){
     }
 }
 
-void bconf::BlackConfigurator::SetValue(const TCHAR* key, ConfItemDict* value){
+void BlackConfigurator::SetValue(const TCHAR* key, ConfItemDict* value){
     MapType::iterator iter = impl_->data_dict.find(key);
     if (iter != impl_->data_dict.end() && (*iter).second.property.value_type == VALUE_TYPE_CONF_DICT){
         ConfItemDict* old_dict = (*iter).second.value.conf_dict;
         if (old_dict != NULL)
             old_dict->Release();
         (*iter).second.value.conf_dict = value;
-        if (value != NULL) {
+        if (value != NULL) {                                                 
             value->SetName(key);
             (*iter).second.value.conf_dict->AddRef();
         }
@@ -294,13 +309,21 @@ void __stdcall BlackConfigurator::Save(const StringT& filename)
         SXLOG_INF(g_local_logger) << _X(" open file for write failed! filepath:") << filename.c_str() << LBT << END;
         return;
     }
-    ConfItemDictWriter writer(this, fp, 0);
+    ConfItemDictFileWriter writer(this, fp, 0);
     writer.Write();
     fclose(fp);
 }
 
 bool __stdcall BlackConfigurator::Load(const StringT& filename)
 {
+    //Clear();
+    FILE* fp = NULL;
+    if (_tfopen_s(&fp, filename.c_str(), _T("rb+, ccs=UTF-8")) != 0) {
+        SXLOG_INF(g_local_logger) << _X(" open file for read failed! filepath:") << filename.c_str() << LBT << END;
+        return false;
+    }
+    ConfItemDictFileReader reader(fp);
+    ConfItemDict* result_dict = reader.Read();
     return false;
 }
 __BCONF_END__

@@ -36,6 +36,8 @@ public:
 
     virtual void __stdcall RemoveKey(const TCHAR* key) = 0;
 
+    virtual void __stdcall Clear() = 0;
+
     virtual ~ConfItemDict() {}
 };
 

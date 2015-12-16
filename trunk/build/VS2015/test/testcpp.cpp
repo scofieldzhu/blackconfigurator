@@ -41,12 +41,13 @@ int main()
          cout << "Query IID_ConfItemDict failed!" << endl;
          return -3;
      }
-     dict->SetName(_T("testconfigurator"));
-     dict->AddPair(_T("Global"), _T("Ggagl"), _T("test annotation"));
-     int test_int = 10;
-     dict->AddPair(_T("TestInt"), test_int, NULL);
-     double test_double = 12.369;
-     dict->AddPair(_T("TestDouble"), test_double, NULL);
+//      dict->SetName(_T("testconfigurator"));
+//      dict->SetDescription(_T("description for this configurator."));
+//      dict->AddPair(_T("Global"), _T("Ggagl"), _T("test annotation"));
+//      int test_int = 10;
+//      dict->AddPair(_T("TestInt"), test_int, NULL);
+//      double test_double = 12.369;
+//      dict->AddPair(_T("TestDouble"), test_double, NULL);
 
      ConfSerializer* serializer = NULL;
      hResult = unk->QueryInterface(IID_ConfSerializer, (void**)&serializer);
@@ -58,29 +59,31 @@ int main()
      }
 
      {
-         ConfItemDict* dict2 = NULL;
-         hResult = CoCreateInstance(black_configurator_CLSID,
-             NULL,
-             CLSCTX_INPROC_SERVER,
-             IID_ConfItemDict,
-             (void **)&dict2);
-         if (hResult != S_OK) {
-             cout << "Create IID_ConfItemDict2 object failed!\n";
-             return -2;
-         }
-         dict2->SetName(_T("TestDict2"));
-         int testint2 = 13;
-         dict2->AddPair(_T("TestInt2"), testint2, _T("test annotation2"));
-         double testdouble2 = 41.235;
-         dict2->AddPair(_T("testdouble2"), testdouble2, NULL);
-         dict2->AddPair(_T("teststring2"), _T("teststring2"), NULL);
-         
-         dict->AddPair(_T("testnestconfdict2"), dict2, _T("test annotation3"));
-
-         StringT conf_filepath = _T("./test-conf.txt");
-         serializer->Save(conf_filepath);
-
-         dict2->Release();
+         bool result = serializer->Load(_T("./test-conf.txt"));
+         cout << "load result:" << result << endl;
+//          ConfItemDict* dict2 = NULL;
+//          hResult = CoCreateInstance(black_configurator_CLSID,
+//              NULL,
+//              CLSCTX_INPROC_SERVER,
+//              IID_ConfItemDict,
+//              (void **)&dict2);
+//          if (hResult != S_OK) {
+//              cout << "Create IID_ConfItemDict2 object failed!\n";
+//              return -2;
+//          }
+//          dict2->SetName(_T("TestDict2"));
+//          int testint2 = 13;
+//          dict2->AddPair(_T("TestInt2"), testint2, _T("test annotation2"));
+//          double testdouble2 = 41.235;
+//          dict2->AddPair(_T("testdouble2"), testdouble2, NULL);
+//          dict2->AddPair(_T("teststring2"), _T("teststring2"), NULL);
+//          
+//          dict->AddPair(_T("testnestconfdict2"), dict2, _T("test annotation3"));
+// 
+//          StringT conf_filepath = _T("./test-conf.txt");
+//          serializer->Save(conf_filepath);
+// 
+//          dict2->Release();
      }     
      
      serializer->Release();

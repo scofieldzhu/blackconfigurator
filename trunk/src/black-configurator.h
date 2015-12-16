@@ -50,6 +50,8 @@ public:
     virtual void __stdcall RemoveKey(const TCHAR* key);
     virtual void __stdcall GetKeys(StringsT& out_keys)const;
 
+    virtual void __stdcall Clear();
+
     //////////////////////////////////////////////////////////////////////////
     //ConfSerializer interface methods
     //////////////////////////////////////////////////////////////////////////

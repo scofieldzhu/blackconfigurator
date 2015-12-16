@@ -27,10 +27,10 @@
     <ClCompile Include="..\..\..\src\black-configurator-factory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\conf-item-dict-reader.cpp">
+    <ClCompile Include="..\..\..\src\conf-item-dict-file-writer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\conf-item-dict-writer.cpp">
+    <ClCompile Include="..\..\..\src\conf-item-dict-file-reader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,10 +61,10 @@
     <ClInclude Include="..\..\..\src\black-configurator.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\conf-item-dict-reader.h">
+    <ClInclude Include="..\..\..\src\conf-item-dict-file-writer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\conf-item-dict-writer.h">
+    <ClInclude Include="..\..\..\src\conf-item-dict-file-reader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
